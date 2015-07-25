@@ -1,4 +1,5 @@
 all:	list
+
 list:	main.o linkedList.o
 	gcc main.o linkedList.o -o list
 
