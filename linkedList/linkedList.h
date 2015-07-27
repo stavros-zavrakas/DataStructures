@@ -14,7 +14,7 @@ struct Subscription {
 // **root: the head of the list (typeof struct Subscription)
 //
 // returns: (void)
-void L_Insert(struct Subscription **root);
+void L_Insert(struct Subscription **root, int sId);
 
 // Function: L_Remove
 // --------------------
@@ -23,7 +23,7 @@ void L_Insert(struct Subscription **root);
 // **root: the head of the list (typeof struct Subscription)
 //
 // returns: (void)
-void L_Remove(struct Subscription **root);
+void L_Remove(struct Subscription **root, int sId);
 
 // Function: L_LookUp
 // --------------------
@@ -32,7 +32,7 @@ void L_Remove(struct Subscription **root);
 // **root: the head of the list (typeof struct Subscription)
 //
 // returns: (void)
-void L_LookUp(struct Subscription **root);
+void L_LookUp(struct Subscription **root, int sId);
 
 // Function: L_LookUp
 // --------------------

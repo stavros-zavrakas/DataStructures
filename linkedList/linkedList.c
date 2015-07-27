@@ -3,12 +3,8 @@
 // Simple Linked List implementation.
 // We perform the insertions on the head of the list.
 
-void L_Insert(struct Subscription **root) {
+void L_Insert(struct Subscription **root, int sId) {
   struct Subscription *temp;
-  int sId;
-
-  printf("Please provide the sId:\n");
-  scanf("%d", &sId);
 
   temp = (struct Subscription *) malloc(sizeof(struct Subscription));
 
@@ -22,35 +18,28 @@ void L_Insert(struct Subscription **root) {
   }
 }
 
-void L_Remove(struct Subscription **root) {
-  struct Subscription *temp1, *temp2;
-  int sId;
+void L_Remove(struct Subscription **root, int sId) {
+  struct Subscription *iterator, *temp;
 
-  printf("Please provide the sId:\n");
-  scanf("%d", &sId);
+  for(temp = NULL, iterator = *root; (iterator != NULL) && (iterator -> sId != sId); temp = iterator, iterator = iterator -> snext);
 
-  for(temp2 = NULL, temp1 = *root; (temp1 != NULL) && (temp1 -> sId != sId); temp2 = temp1, temp1 = temp1 -> snext);
-
-  if(!temp1) {
+  if(!iterator) {
     printf("The sId couldn't be deleted.\n");
   } else {
-    if(temp2 == NULL) {
-      *root = temp1 -> snext;
+    if(temp == NULL) {
+      *root = iterator -> snext;
     } else {
-      temp2 -> snext = temp1 -> snext;
+      temp -> snext = iterator -> snext;
     }
 
-    free(temp1);
+    free(iterator);
     printf("\nThe sId deleted successfuly.\n");
   }
 }
 
-void L_LookUp(struct Subscription **root) {
+void L_LookUp(struct Subscription **root, int sId) {
   struct Subscription *temp;
-  int sId, found;
-
-  printf("Please provide the sId that you want to search for: ");
-  scanf("%d", &sId);
+  int found;
 
   temp = *root;
   found = 0;

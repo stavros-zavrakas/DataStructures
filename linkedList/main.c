@@ -2,7 +2,7 @@
 
 int main() {
   struct Subscription *gsub;
-  int choice;
+  int choice, sId;
   gsub = NULL;
 
   printf("Please select one of the following functionalities:\n");
@@ -15,11 +15,20 @@ int main() {
 
   while(choice != 0) {
     if(choice == 1) {
-      L_Insert(&gsub);
+      printf("Please provide the sId:\n");
+      scanf("%d", &sId);
+
+      L_Insert(&gsub, sId);
     } else if(choice == 2) {
-      L_Remove(&gsub);
+      printf("Please provide the sId:\n");
+      scanf("%d", &sId);
+
+      L_Remove(&gsub, sId);
     } else if(choice == 3) {
-      L_LookUp(&gsub);
+      printf("Please provide the sId that you want to search for: ");
+      scanf("%d", &sId);
+
+      L_LookUp(&gsub, sId);
     } else if(choice == 4) {
       L_Print(&gsub);
     } else {
