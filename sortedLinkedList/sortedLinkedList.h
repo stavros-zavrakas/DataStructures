@@ -18,7 +18,7 @@ struct SubInfo {
 // **root: the head of the list (typeof struct SubInfo)
 //
 // returns: (void)
-void SL_Insert(struct SubInfo **root);
+void SL_Insert(struct SubInfo **root, int sId, int stm);
 
 // SL_Remove function
 // --------------------
@@ -27,7 +27,7 @@ void SL_Insert(struct SubInfo **root);
 // **root: the head of the list (typeof struct SubInfo)
 //
 // returns: (void)
-void SL_Remove(struct SubInfo **root);
+void SL_Remove(struct SubInfo **root, int stm);
 
 // SL_LookUp function
 // --------------------
@@ -36,7 +36,7 @@ void SL_Remove(struct SubInfo **root);
 // **root: the head of the list (typeof struct SubInfo)
 //
 // returns: (void)
-void SL_LookUp(struct SubInfo **root);
+void SL_LookUp(struct SubInfo **root, int stm);
 
 // SL_Print function
 // --------------------

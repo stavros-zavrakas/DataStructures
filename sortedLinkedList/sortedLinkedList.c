@@ -4,71 +4,59 @@
 
 #include "sortedLinkedList.h"
 
-void SL_Insert(struct SubInfo **root) {
-  struct SubInfo *temp, *temp1, *temp2;
-  int sId, stm;
-  printf("Please provide the sId:\n");
-  scanf("%d", &sId);
-  printf("Please provide the stm:\n");
-  scanf("%d", &stm);
-  printf("\nAdding the new node with id: %d and time: %d.\n", sId, stm);
-  if(*root == NULL) {
-    temp1 = (struct SubInfo *) malloc(sizeof(struct SubInfo));
+void SL_Insert(struct SubInfo **root, int sId, int stm) {
+  struct SubInfo *temp1, *temp2, *iterator;
 
-    if(temp1 == NULL) {
+  if(*root == NULL) {
+    iterator = (struct SubInfo *) malloc(sizeof(struct SubInfo));
+
+    if(iterator == NULL) {
       printf("Error allocating memory.\n");
       exit(0);
     }
 
-    temp1->sId = sId;
-    temp1->stm = stm;
-    temp1->next = NULL;
-    *root = temp1;
+    iterator->sId = sId;
+    iterator->stm = stm;
+    iterator->next = NULL;
+    *root = iterator;
   } else {
-    temp = (struct SubInfo *) malloc(sizeof(struct SubInfo));
-    temp->stm = stm;
-    temp->sId = sId;
-    for(temp2 = NULL, temp1 = *root; (temp1 != NULL) && (temp1->stm < stm); temp2 = temp1, temp1 = temp1->next);
+    temp1 = (struct SubInfo *) malloc(sizeof(struct SubInfo));
+    temp1->stm = stm;
+    temp1->sId = sId;
+    for(temp2 = NULL, iterator = *root; (iterator != NULL) && (iterator->stm < stm); temp2 = iterator, iterator = iterator->next);
 
     if(temp2 == NULL) {
-      temp->next = temp1;
-      *root = temp;
+      temp1->next = iterator;
+      *root = temp1;
     } else {
-      temp->next = temp1;
-      temp2->next = temp;
+      temp1->next = iterator;
+      temp2->next = temp1;
     }
   }
   printf("\nThe new node added: (sID: %d, stm: %d).\n", sId, stm);
 }
 
-void SL_Remove(struct SubInfo **root) {
-  struct SubInfo *temp1, *temp2;
-  int stm;
+void SL_Remove(struct SubInfo **root, int stm) {
+  struct SubInfo *iterator, *temp;
 
-  printf("Please provide the stm that you want to delete:\n");
-  scanf("%d", &stm);
+  for(temp = NULL, iterator = *root; (iterator != NULL) && (iterator->stm < stm); temp = iterator, iterator = iterator->next);
 
-  for(temp2 = NULL, temp1 = *root; (temp1 != NULL) && (temp1->stm < stm); temp2 = temp1, temp1 = temp1->next);
-
-  if((temp1 == NULL) || (temp1->stm > stm)) {
+  if((iterator == NULL) || (iterator->stm > stm)) {
     printf("\nThe stm couldn't be deleted.\n");
   } else {
     printf("\nThe stm deleted successfuly.\n");
-    if(temp2 == NULL) {
-      *root = temp1->next;
+    if(temp == NULL) {
+      *root = iterator->next;
     } else {
-      temp2->next = temp1->next;
+      temp->next = iterator->next;
     }
-    free(temp1);
+    free(iterator);
   }
 }
 
-void SL_LookUp(struct SubInfo **root) {
+void SL_LookUp(struct SubInfo **root, stm) {
   struct SubInfo *temp;
-  int stm;
 
-  printf("Please provide the stm that you want to search for: ");
-  scanf("%d", &stm);
   for(temp = *root; (temp != NULL) && (temp->stm < stm); temp = temp->next);
 
   if((temp == NULL) || (temp->stm > stm)) {
