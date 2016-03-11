@@ -54,7 +54,7 @@ void SL_Remove(struct SubInfo **root, int stm) {
   }
 }
 
-void SL_LookUp(struct SubInfo **root, stm) {
+void SL_LookUp(struct SubInfo **root, int stm) {
   struct SubInfo *temp;
 
   for(temp = *root; (temp != NULL) && (temp->stm < stm); temp = temp->next);
