@@ -32,7 +32,7 @@ struct SubInfo {
 };
 
 // Function prototypes of a double list typeof struct Info
-void DL_Insert(struct Info **, struct Info **, int, int, int);
+void DL_Insert(struct Info **, struct Info **, int, int);
 void DL_Remove(struct Info **, struct Info **, int);
 void DL_LookUp(struct Info **, int);
 void DL_Print(struct Info **);
@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
 
       while((gId = atoi(token = strtok(NULL, search))) != -1) {
         // printf ("gId : %d ",gId);
-        DL_Insert(&G[gId].gfirst, &G[gId].glast, itm, iId, gId);
+        DL_Insert(&G[gId].gfirst, &G[gId].glast, itm, iId);
 
         // Keeping all the gid that we read in a temp array
         tempIgp[gId] = gId;
@@ -311,7 +311,7 @@ int main(int argc, char** argv) {
 
 // Double list functionalities
 // typeof struct Info
-void DL_Insert(struct Info **root, struct Info **last, int itm, int iId, int gId) {
+void DL_Insert(struct Info **root, struct Info **last, int itm, int iId) {
 
   int i;
   struct Info *temp, *temp1, *temp2 = NULL;
@@ -395,6 +395,7 @@ void DL_Remove(struct Info **root, struct Info **last, int itm) {
 
     temp1 = temp1->inext;
   }
+  
   if(found == 0) {
     printf("\nThe imt couldn't be deleted\n");
   } else {
