@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #define LINE_LENGTH 1000000
 #define MG 10
 
-#include "../../doubleLinkedList/doubleLinkedList.h"
+struct Info {
+  int iId;
+  int itm;
+  int igp[MG];
+  struct Info *iprev;
+  struct Info *inext;
+};
 
 struct Subscription {
   int sId;
@@ -25,6 +30,13 @@ struct SubInfo {
   struct Info *sgp[MG];
   struct SubInfo *next;
 };
+
+// Function prototypes of a double list typeof struct Info
+void DL_Insert(struct Info **, struct Info **, int, int);
+void DL_Remove(struct Info **, struct Info **, int);
+void DL_LookUp(struct Info **, int);
+void DL_Print(struct Info **);
+void DL_Free(struct Info **);
 
 // Function prototypes of a double list typeof struct Subscription
 void L_Insert(struct Subscription **, int);
@@ -295,6 +307,138 @@ int main(int argc, char** argv) {
   printf("\n");
 
   return (EXIT_SUCCESS);
+}
+
+// Double list functionalities
+// typeof struct Info
+void DL_Insert(struct Info **root, struct Info **last, int itm, int iId) {
+
+  int i;
+  struct Info *temp, *temp1, *temp2 = NULL;
+  temp = (struct Info *) malloc(sizeof(struct Info));
+
+  if(temp == NULL) {
+    printf("Error allocating memory..\n");
+    exit(0);
+  }
+
+  temp->iId = iId;
+  temp->itm = itm;
+  for(i = 0; i < MG; i++) {
+    temp->igp[i] = -1;
+  }
+
+  if(*root == NULL) {
+    temp->inext = NULL;
+    temp->iprev = NULL;
+    *root = temp;
+    *last = temp;
+  } else {
+    for(temp2 = NULL, temp1 = *root; (temp1 != NULL) && (temp1->itm < itm); temp2 = temp1, temp1 = temp1->inext);
+
+    if(temp1 == NULL) {
+      temp->inext = NULL;
+      temp->iprev = temp2;
+      temp2->inext = temp;
+      *last = temp;
+    } else if(temp2 == NULL) {
+      temp->inext = temp1;
+      temp->iprev = NULL;
+      temp1->iprev = temp;
+      *root = temp;
+    } else {
+      temp->inext = temp1;
+      temp->iprev = temp2;
+      temp2->inext = temp;
+      temp1->iprev = temp;
+    }
+  }
+}
+
+void DL_Remove(struct Info **root, struct Info **last, int itm) {
+  struct Info *temp1, *temp2, *temp3;
+  int found;
+
+  found = 0;
+  temp1 = *root;
+  while(temp1 != NULL) {
+    if(temp1->itm == itm) {
+      found = 1;
+      if(temp1 == *root) {
+        temp2 = *root;
+        if(temp2->inext == NULL) {
+          free(temp2);
+          *root = NULL;
+          break;
+        } else {
+          temp2 = temp1->inext;
+          temp2->iprev = NULL;
+          *root = temp2;
+          free(temp1);
+          break;
+        }
+      } else if(temp1->inext == NULL) {
+        temp2 = temp1->iprev;
+        temp2->inext = NULL;
+        *last = temp2;
+        free(temp1);
+        break;
+      } else {
+        temp2 = temp1->iprev;
+        temp3 = temp1->inext;
+        temp2->inext = temp3;
+        temp3->iprev = temp2;
+        free(temp1);
+        break;
+      }
+    }
+
+    temp1 = temp1->inext;
+  }
+  
+  if(found == 0) {
+    printf("\nThe imt couldn't be deleted\n");
+  } else {
+    printf("\nThe deletion was succesful\n");
+  }
+}
+
+void DL_LookUp(struct Info **root, int itm) {
+  struct Info *temp;
+
+  for(temp = *root; (temp != NULL) && (temp->itm < itm); temp = temp->inext);
+
+  if((temp == NULL) || (temp->itm > itm)) {
+    printf("\nThe itm %d didn't found!\n", itm);
+  }
+  else {
+    printf("\nThe itm %d found!\n", itm);
+  }
+}
+
+void DL_Print(struct Info **root) {
+  struct Info *temp;
+  int i;
+
+  for(temp = *root; (temp != NULL); temp = temp->inext) {
+    if(temp == *root) {
+      printf("INFOLIST = ");
+    }
+
+    printf("<%d>", temp->iId);
+  }
+}
+
+void DL_Free(struct Info **root) {
+  struct Info *temp1, *temp2;
+
+  if(*root != NULL) {
+    for(temp2 = *root, temp1 = temp2->inext; (temp1 != NULL); temp2 = temp1, temp1 = temp1->inext) {
+      free(temp2);
+    }
+    free(temp2);
+    *root = NULL;
+  }
 }
 
 // Simple linked list functionalities

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifndef MG
 #define MG 10
+#endif
 
 struct Info {
   int iId;

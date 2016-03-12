@@ -114,8 +114,11 @@ void DL_Print(struct Info **root) {
   struct Info *temp;
 
   for(temp = *root; (temp != NULL); temp = temp->inext) {
-    printf(" itm = %d ", temp->itm);
-    printf(" iId = %d \n", temp->iId);
+    if(temp == *root) {
+      printf("INFOLIST = ");
+    }
+
+    printf("<%d>", temp->iId);
   }
 }
 
