@@ -60,7 +60,7 @@ void L_LookUp(struct Subscription **root, int sId) {
 
 void L_Print(struct Subscription **root) {
   struct Subscription *temp;
-
+  printf("SUBLIST = ");
   for(temp = *root; temp != NULL; temp = temp -> snext) {
     printf("sId: %d\n", temp -> sId);
   }

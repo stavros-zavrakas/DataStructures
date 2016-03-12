@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MG 64
+
+#ifndef MG
+#define MG 10
+#endif
 
 struct Subscription {
   int sId;
