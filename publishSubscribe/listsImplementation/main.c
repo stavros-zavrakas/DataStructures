@@ -4,9 +4,11 @@
 
 #define LINE_LENGTH 1000000
 #define MG 10
+#define SGP_AS_STRUCT TRUE
 
 #include "../../doubleLinkedList/doubleLinkedList.h"
 #include "../../linkedList/linkedList.h"
+#include "../../sortedLinkedList/sortedLinkedList.h"
 
 struct Group {
   int gId;
@@ -14,20 +16,6 @@ struct Group {
   struct Info *gfirst;
   struct Info *glast;
 };
-
-struct SubInfo {
-  int sId;
-  int stm;
-  struct Info *sgp[MG];
-  struct SubInfo *next;
-};
-
-// Function prototypes of a double list typeof struct SubInfo
-void SL_Insert(struct SubInfo **, int, int);
-void SL_Remove(struct SubInfo **, int);
-void SL_LookUp(struct SubInfo **, int);
-void SL_Print(struct SubInfo **);
-void SL_Free(struct SubInfo **);
 
 int main(int argc, char** argv) {
   FILE *fp = NULL;
@@ -284,99 +272,4 @@ int main(int argc, char** argv) {
   printf("\n");
 
   return (EXIT_SUCCESS);
-}
-
-// Sorted linked list functionalities
-// typeof struct SubInfo
-void SL_Insert(struct SubInfo **root, int sId, int stm) {
-  struct SubInfo *temp, *temp1, *temp2;
-  int i;
-
-  if(*root == NULL) {
-    //printf ("Eimai miden o malakas\n");
-    temp1 = (struct SubInfo *) malloc(sizeof(struct SubInfo));
-    if(temp1 == NULL)
-    {
-      printf("Error allocating memory..\n");
-      exit(0);
-    }
-
-    temp1->sId = sId;
-    temp1->stm = stm;
-    temp1->next = NULL;
-    *root = temp1;
-    for(i = 0; i < MG; i++) {
-      temp1->sgp[i] = NULL;
-    }
-  } else {
-    //printf ("Den eimai miden o malakas\n");
-    temp = (struct SubInfo *) malloc(sizeof(struct SubInfo));
-    temp->stm = stm;
-    temp->sId = sId;
-    for(temp2 = NULL, temp1 = *root; (temp1 != NULL) && (temp1->stm < stm); temp2 = temp1, temp1 = temp1->next);
-
-    if(temp2 == NULL) {
-      temp->next = temp1;
-      *root = temp;
-    } else {
-      temp->next = temp1;
-      temp2->next = temp;
-    }
-
-    for(i = 0; i < MG; i++) {
-      temp->sgp[i] = NULL;
-    }
-  }
-}
-
-void SL_Remove(struct SubInfo **root, int sId) {
-  struct SubInfo *temp1, *temp2;
-
-  for(temp2 = NULL, temp1 = *root; (temp1 != NULL) && (temp1->sId < sId); temp2 = temp1, temp1 = temp1->next);
-
-  if((temp1 == NULL) || (temp1->sId > sId)) {
-    printf("\nThe amt couldn't be deleted\n");
-  } else {
-    if(temp2 == NULL) {
-      *root = temp1->next;
-    } else {
-      temp2->next = temp1->next;
-    }
-
-    free(temp1);
-  }
-}
-
-
-void SL_LookUp(struct SubInfo **root, int stm) {
-  struct SubInfo *temp;
-
-  for(temp = *root; (temp != NULL) && (temp->stm < stm); temp = temp->next);
-
-  if((temp == NULL) || (temp->stm > stm)) {
-    printf("\nThe stm %d didn't found!\n", stm);
-  } else {
-    printf("\nThe stm %d found!\n", stm);
-  }
-}
-
-void SL_Print(struct SubInfo **root) {
-  struct SubInfo *temp;
-
-  printf("\nSUBSCRIBERLIST = ");
-  for(temp = *root; (temp != NULL); temp = temp->next) {
-    printf("<%d>", temp->sId);
-  }
-}
-
-void SL_Free(struct SubInfo **root) {
-  struct SubInfo *temp1, *temp2;
-
-  if(*root != NULL) {
-    for(temp2 = *root, temp1 = temp2->next; (temp1 != NULL); temp2 = temp1, temp1 = temp1->next) {
-      free(temp2);
-    }
-    free(temp2);
-    *root = NULL;
-  }
 }

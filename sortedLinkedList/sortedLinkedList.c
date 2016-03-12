@@ -33,7 +33,12 @@ void SL_Insert(struct SubInfo **root, int sId, int stm) {
       temp2->next = temp1;
     }
   }
-  printf("\nThe new node added: (sID: %d, stm: %d).\n", sId, stm);
+
+  #if SGP_AS_STRUCT
+    for(i = 0; i < MG; i++) {
+      iterator->sgp[i] = NULL;
+    }
+  #endif
 }
 
 void SL_Remove(struct SubInfo **root, int stm) {
@@ -44,7 +49,6 @@ void SL_Remove(struct SubInfo **root, int stm) {
   if((iterator == NULL) || (iterator->stm > stm)) {
     printf("\nThe stm couldn't be deleted.\n");
   } else {
-    printf("\nThe stm deleted successfuly.\n");
     if(temp == NULL) {
       *root = iterator->next;
     } else {
@@ -69,9 +73,9 @@ void SL_LookUp(struct SubInfo **root, int stm) {
 void SL_Print(struct SubInfo **root) {
   struct SubInfo *temp;
 
+  printf("\nSUBSCRIBERLIST = ");
   for(temp = *root; (temp != NULL); temp = temp->next) {
-    printf(" stm = %d ", temp->stm);
-    printf(" sId = %d \n", temp->sId);
+    printf("<%d>", temp->sId);
   }
 }
 

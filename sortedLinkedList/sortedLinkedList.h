@@ -1,11 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MG 64
+
+#ifndef MG
+#define MG 10
+#endif
 
 struct SubInfo {
   int sId;
   int stm;
+
+#if SGP_AS_STRUCT
+  struct Info *sgp[MG];
+#else
   int sgp[MG];
+#endif
+
   struct SubInfo *next;
 };
 
